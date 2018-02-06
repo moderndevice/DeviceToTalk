@@ -5,30 +5,9 @@
 
   FMI:
   The audio board uses the following pins.
-  6 - MEMCS
-  7 - MOSI
-  9 - BCLK
-  10 - SDCS
-  11 - MCLK
-  12 - MISO
-  13 - RX
-  14 - SCLK
-  15 - VOL
-  18 - SDA
-  19 - SCL
-  22 - TX
-  23 - LRCLK
-
-
-  AudioProcessorUsage()
-  AudioProcessorUsageMax()
-  AudioProcessorUsageMaxReset()
-  AudioMemoryUsage()
-  AudioMemoryUsageMax()
-  AudioMemoryUsageMaxReset()
-
-  The CPU usage is an integer from 0 to 100, and the memory is from 0 to however
-  many blocks you provided with AudioMemory().
+  6 - MEMCS 7 - MOSI 9 - BCLK 10 - SDCS 11 - MCLK 12 - MISO 13 - RX
+  14 - SCLK 15 - VOL 18 - SDA 19 - SCL 22 - TX 23 - LRCLK
+ 
 */
 
 #include <Audio.h>
@@ -36,6 +15,9 @@
 #define SDCARD_CS_PIN    10
 #define SDCARD_MOSI_PIN  7
 #define SDCARD_SCK_PIN   14
+
+#define PIR1 1
+#define PIR2 2
 
 // GUItool: begin automatically generated code
 #include <Audio.h>
@@ -62,6 +44,9 @@ AudioControlSGTL5000     audioShield;     //xy=623.1666870117188,261
 const float RESET_AMOUNT = .1; // arbitrary units
 // governs how fast the peak detector returns to zero
 // smaller numbers are slower
+
+int pir1;
+int pir2;
 
 void setup() {
 
@@ -92,6 +77,7 @@ void setup() {
   Serial.print(AudioMemoryUsageMax());
   Serial.println();
 
+  // uses audio shield - SD card for samples
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
   if (!(SD.begin(SDCARD_CS_PIN))) {
@@ -101,6 +87,8 @@ void setup() {
       delay(500);
     }
   }
+
+  readSensors();
 }
 
 
@@ -118,8 +106,8 @@ void loop()
   Serial.println(peak);
   delay(10);
   if (!playSdWav1.isPlaying()) {
-    if (peak > 0.7){
-    Serial.println("playing");
+    if (peak > 0.7) {
+      Serial.println("playing");
       playSdWav1.play("NotSLoud.wav");
     }
   }
