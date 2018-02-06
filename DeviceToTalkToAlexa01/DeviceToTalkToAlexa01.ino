@@ -7,7 +7,7 @@
   The audio board uses the following pins.
   6 - MEMCS 7 - MOSI 9 - BCLK 10 - SDCS 11 - MCLK 12 - MISO 13 - RX
   14 - SCLK 15 - VOL 18 - SDA 19 - SCL 22 - TX 23 - LRCLK
- 
+
 */
 
 #include <Audio.h>
@@ -18,6 +18,7 @@
 
 #define PIR1 1
 #define PIR2 2
+#define WalkAwayTimeout_Secs 15
 
 // GUItool: begin automatically generated code
 #include <Audio.h>
@@ -25,6 +26,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include "FunctionDefs.h"
 
 // GUItool: begin automatically generated code
 AudioInputI2S            audioInput;           //xy=72.16667175292969,165
@@ -45,13 +47,12 @@ const float RESET_AMOUNT = .1; // arbitrary units
 // governs how fast the peak detector returns to zero
 // smaller numbers are slower
 
-int pir1;
-int pir2;
+int pir1, pir2;
 
 void setup() {
 
   Serial.begin(9600);
-  while (!Serial && (millis() <= 1000));
+  while (!Serial && (millis() <= 3000));
   delay(1000);
 
   // Maximum memory usage was reported as 4
@@ -91,13 +92,22 @@ void setup() {
   readSensors();
 }
 
-
 // audio volume
 float  temp,  peak = 0;
 
 unsigned long last_time = millis();
+/*************** loop ********************/
 void loop()
 {
+  readSensors();
+
+  for (int i = 0; i < 8; i++) {
+    setVol(i);
+    delay(3000);
+  }
+
+return;
+
   temp = peak1.read();
   if (temp > peak) peak = temp;
   peak = peak - RESET_AMOUNT ;
