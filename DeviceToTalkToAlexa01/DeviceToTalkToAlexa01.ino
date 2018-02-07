@@ -23,9 +23,9 @@
 const float RESET_AMOUNT = .001; // arbitrary units
 // governs how fast the peak detector returns to zero
 // smaller numbers are slower
-const float SILENCE_THRESHOLD = 0.25; // threshold for audio detection
+const float SILENCE_THRESHOLD = 0.16; // threshold for audio detection
 
-const float LOW_THRESHOLD = 0.20; // threshold for audio detection
+const float LOW_THRESHOLD = 0.12; // threshold for audio detection
 
 
 #define TIMER_DEBUG
@@ -37,6 +37,7 @@ const float LOW_THRESHOLD = 0.20; // threshold for audio detection
 #include <SD.h>
 #include <SerialFlash.h>
 #include "FunctionDefs.h"
+#include "UtilityFunctions.h"
 
 // GUItool: begin automatically generated code
 AudioInputI2S            audioInput;           //xy=72.16667175292969,165
@@ -59,8 +60,14 @@ float  temp,  peak = 0; // audio volume
 unsigned int lastMotionTime, noMotionTime_Secs, lastSoundTime,  lastRead;
 float silenceTime_Secs;
 
+char* musicArr[] = {"tempttns.wav","supremes.wav","johnCage.wav","raviShkr.wav","sunRa.wav",
+"PubEnemy.wav","artEnsCh.wav","zappa.wav","samCook.wav","vogues.wav"  };
+
+int maxMusicArrIndex = sizeof(musicArr) / sizeof(musicArr[0]);
+
 // function prototypes - shouldn't really be neccessary
 void myDelay(int intervalMS);
+int randomHatMusic(int numberInHat);
 
 void setup() {
 
@@ -108,9 +115,7 @@ void setup() {
   lastRead = millis();
   readSensors();
   setVol(2);
-
 }
-
 
 unsigned long last_time = millis();
 /*************** loop ********************/
@@ -119,7 +124,7 @@ void loop()
   readSensors();
 
   if (noMotionTime_Secs < 30) {
-    norbertWiener();
+    harryNyquist();
     myDelay(2000);
   }
 }

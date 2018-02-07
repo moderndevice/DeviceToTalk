@@ -1,11 +1,11 @@
 #define randomHatStartNum 0  // starting number in hat
 // #define randomHatEndNum 25    // ending number in hat - end has to be larger than start
 
-int randomHat(int numberInHat) {
+int randomHatMusic(int numberInHat) {
   int thePick;		//this is the return variable with the random number from the pool
   int theIndex;
   static int currentNumInHat = 0;
-
+  static int randArray[20];
 
   if  (currentNumInHat == 0) {                  // hat is emply - all have been choosen - fill up array again
     for (int i = 0 ; i < numberInHat; i++) {    // Put 1 TO numberInHat in array - starting at address 0.
