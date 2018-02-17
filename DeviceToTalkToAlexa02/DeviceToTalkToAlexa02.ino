@@ -9,7 +9,7 @@
   14 - SCLK 15 - VOL 18 - SDA 19 - SCL 22 - TX 23 - LRCLK
 */
 
-#include "pinsNvariables.h"
+#include "pinsANDglobals.h"
 
 void setup() {
 

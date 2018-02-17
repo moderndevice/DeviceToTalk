@@ -3,9 +3,10 @@
 #define SDCARD_MOSI_PIN  7
 #define SDCARD_SCK_PIN   14
 
-#define PIR1 2  // left from back view
+#define PIR1 2  
 #define PIR2 1
 #define WalkAwayTimeout_Secs 15
+
 
 const float RESET_AMOUNT = .001; // arbitrary units
 // governs how fast the peak detector returns to zero
