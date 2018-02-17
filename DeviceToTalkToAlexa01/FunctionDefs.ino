@@ -1,95 +1,26 @@
-extern int pir1, pir2, maxMusicArrIndex;
+//#include "DeviceToTalkToAlexa01.ino"
+// extern int pir1, pir2, maxMusicArrIndex;
+#include <Audio.h>
 extern AudioPlaySdWav playSD;
 extern unsigned int lastMotionTime, noMotionTime_Secs, lastSoundTime, lastRead;
 extern float silenceTime_Secs;
 extern AudioAnalyzePeak peak1;
-extern const float RESET_AMOUNT, SILENCE_THRESHOLD;
+extern const float RESET_AMOUNT, SILENCE_THRESHOLD, LOW_THRESHOLD;
 extern float temp, peak;
 extern char* musicArr[];
-int lastPIR1, lastPIR2;
-int randomHatMusic(int numberInHat);
+void setVol(int vol);
+extern void readSensors();
+extern void myDelay(int intervalMS);
+//int maxMusicArrIndex;
 
 
 
-void readSensors() {
-  // peak detection seems to not work if you read peak too quickly //
-  if ((millis() - lastRead) < 5) {
-    // just bail out
-  }
-  else {
-    lastRead = millis();
-    pir1 = digitalRead(PIR1);
-    pir2 = digitalRead(PIR2);
 
-    if ((pir1 || pir2)) {              //(lastPIR1 || lastPIR2) && !
-      lastMotionTime = millis();
-      //            Serial.println("reset motion");
-    }
-    noMotionTime_Secs = (millis() - lastMotionTime) / 1000;
-    lastPIR1 = pir1;
-    lastPIR2 = pir2;
-    // peak detector for peak !?
-    temp = peak1.read();
-    if (temp > peak) peak = temp; // slow down // peak += (temp - peak) / 3.0;
-    peak = peak - RESET_AMOUNT;
-    if (peak < 0) peak = 0;
-    if (peak > SILENCE_THRESHOLD) {
-      lastSoundTime = millis();
-    }
-    silenceTime_Secs = (millis() - lastSoundTime) / 1000;
+void doLights(int value){
 
-#ifdef TIMER_DEBUG
-    Serial.print(pir1); Serial.print(pir2); Serial.print("\t"); Serial.print(noMotionTime_Secs);
-    Serial.print("\t"); Serial.print("\t");
-    Serial.print(peak); Serial.print("\t"); Serial.println(silenceTime_Secs);
-#endif
-  }
+	// light20.wav
+// light2.wav
 }
-
-void myDelay(int intervalMS) {
-  unsigned int startTime;
-  startTime = millis();
-  while (millis() - startTime < intervalMS) {
-    readSensors();
-  }
-}
-
-void setVol(int vol) {
-  if (!playSD.isPlaying()) {
-    if (vol == 0) {
-      playSD.play("vol0.wav");
-    }
-    if (vol == 1) {
-      playSD.play("vol1.wav");
-    }
-    else if (vol == 2) {
-      playSD.play("vol2.wav");
-    }
-    else if (vol == 3) {
-      playSD.play("vol3.wav");
-    }
-    else if (vol == 4) {
-      playSD.play("vol4.wav");
-    }
-    else if (vol == 5) {
-      playSD.play("vol5.wav");
-    }
-    else if (vol == 6) {
-      playSD.play("vol6.wav");
-    }
-    else if (vol == 7) {
-      playSD.play("vol7.wav");
-    }
-    else if (vol == 8) {
-      playSD.play("vol8.wav");
-    }
-    while (playSD.isPlaying()) {
-      Serial.println("foo");
-    }
-    delay(10);
-  }
-}
-
 
 void alexaCancel() {
   if (playSD.isPlaying()) playSD.stop();
@@ -164,9 +95,9 @@ void clorox() {
 
 void norbertWiener() {
   unsigned int startTime;
-   if (silenceTime_Secs < 1){
-  	alexaCancel();
-  	myDelay(3000);
+  if (silenceTime_Secs < 1) {
+    alexaCancel();
+    myDelay(3000);
   }
   if (playSD.isPlaying()) playSD.stop();
   playSD.play("aWiener.wav");
@@ -220,9 +151,9 @@ void playMusic() {
   Serial.print("  fileRepeat ");
   Serial.println(fileRepeat );
   delay(10000);
-   if (silenceTime_Secs < 1){
-  	alexaCancel();
-  	myDelay(3000);
+  if (silenceTime_Secs < 1) {
+    alexaCancel();
+    myDelay(3000);
   }
   if (playSD.isPlaying()) playSD.stop();
   fileNum = randomHatMusic(maxMusicArrIndex);
@@ -247,9 +178,9 @@ void playMusic() {
 
 void harryNyquist() {
   unsigned int startTime;
-  if (silenceTime_Secs < 1){
-  	alexaCancel();
-  	myDelay(3000);
+  if (silenceTime_Secs < 1) {
+    alexaCancel();
+    myDelay(3000);
   }
   if (playSD.isPlaying()) playSD.stop();
   playSD.play("nyquist.wav");
@@ -257,7 +188,7 @@ void harryNyquist() {
   readSensors();
   myDelay(2000);
   startTime = millis();
-  while (peak > LOW_THRESHOLD && (millis() - startTime) < 148000 ) {
+  while (peak > LOW_THRESHOLD && (millis() - startTime) < 14000 ) {
     readSensors();
   }
   playSD.play("nyqLimit.wav");
@@ -267,7 +198,29 @@ void harryNyquist() {
   while (peak > LOW_THRESHOLD && (millis() - startTime) < 14000 ) {
     readSensors();
   }
+}
 
+void goatFacts() {
+  unsigned int startTime;
+  int randomPlay;
+  randomPlay = random(3) + 1;
+  Serial.print("  randomPlay ");
+  Serial.println(randomPlay );
+  delay(4000);
+  if (silenceTime_Secs < 1) {
+    myDelay(2000);
+  }
+  if (playSD.isPlaying()) playSD.stop();
+  startTime = millis();
+  for (int i = 0; i < randomPlay; i++) {
+    playSD.play("goatFact.wav");
+    delay(10);
+    myDelay(6000);
+    while (peak > LOW_THRESHOLD && (millis() - startTime) < 30000 ) {
+      readSensors();
+    }
+    startTime = millis();
+  }
 }
 
 
