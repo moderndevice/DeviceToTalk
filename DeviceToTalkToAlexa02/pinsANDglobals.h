@@ -6,8 +6,10 @@
 #define PIR1 2  
 #define PIR2 1
 #define WalkAwayTimeout_Secs 15
+#define DEFAUT_VOLUME 3
 
 
+int gVolume = DEFAUT_VOLUME;  // global volume - this is alexa volume
 const float RESET_AMOUNT = .001; // arbitrary units
 // governs how fast the peak detector returns to zero
 // smaller numbers are slower
@@ -51,6 +53,10 @@ char* musicArr[] = {"tempttns.wav", "supremes.wav", "johnCage.wav", "raviShkr.wa
                     "PubEnemy.wav", "artEnsCh.wav", "zappa.wav", "samCook.wav", "vogues.wav"
                    };
 
+char* loveYouArr[] = {"iLoveYou.wav","yourGreat.wav","thebest.wav"};
+char* hateYouArr[] = {"onlyThng.wav","iHateYou.wav","dissapnt.wav"};
+char* hiArr[] = {"hi.wav","hi2.wav","goodDay.wav","hello.wav"};
+char* liarArr[] = {"liar.wav","liar2.wav","liar3.wav"};
 
 
 int maxMusicArrIndex = sizeof(musicArr) / sizeof(musicArr[0]);

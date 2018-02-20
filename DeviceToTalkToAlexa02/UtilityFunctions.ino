@@ -43,8 +43,16 @@ void readSensors() {
   }
 }
 
-void setVol(int vol) {
-  if (!playSD.isPlaying()) {
+void randVol(){
+	int i = random(3,6);
+	setVol(i);
+	Serial.println(i);
+}
+
+void setVol(int vol) { // sets Alexa volume
+  if (gVolume != vol) {
+    while (playSD.isPlaying()); // let any sample playing finish
+    delay(500);
     if (vol == 0) {
       playSD.play("vol0.wav");
     }
@@ -72,12 +80,12 @@ void setVol(int vol) {
     else if (vol == 8) {
       playSD.play("vol8.wav");
     }
-    while (playSD.isPlaying()) {
-      Serial.println("foo");
-    }
     delay(SD_WAV_DELAY);
+    while (playSD.isPlaying());
+    gVolume = vol;
   }
 }
+
 
 
 void myDelay(unsigned int intervalMS) {

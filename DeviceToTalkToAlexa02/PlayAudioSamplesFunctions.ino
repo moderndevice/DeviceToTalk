@@ -118,8 +118,9 @@ void norbertWiener() {
 
 void claudeShannon() {
   unsigned int startTime;
-  if (silenceTime_Secs < 1) alexaCancel();
+ // if (silenceTime_Secs < 1) alexaCancel();
   if (playSD.isPlaying()) playSD.stop();
+  delay(10);
   playSD.play("aShan.wav");
   delay(SD_WAV_DELAY);
   readSensors();
@@ -130,7 +131,7 @@ void claudeShannon() {
   }
   playSD.play("readMore.wav");
   delay(SD_WAV_DELAY);
-  myDelay(3000);
+  myDelay(6000);
   startTime = millis();
   while (peak > LOW_THRESHOLD && (millis() - startTime) < 40000 ) {
     readSensors();

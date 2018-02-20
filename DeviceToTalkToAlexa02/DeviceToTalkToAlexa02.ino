@@ -56,7 +56,7 @@ void setup() {
 
   lastRead = millis();
   readSensors();
-  setVol(2);
+  setVol(gVolume);
 }
 
 unsigned long last_time = millis();
@@ -66,10 +66,10 @@ void loop()
   readSensors();
 
   //if (noMotionTime_Secs < 30) {
-if (!playSD.isPlaying()) {
- (*functionArray[1])();
-//clorox();
-Serial.println("playing functionArray 1");
-}
+  if (!playSD.isPlaying()) {
+  	claudeShannon();
+   // (*functionArray[2])();
+   
+  }
   //  goatFacts();
 }
