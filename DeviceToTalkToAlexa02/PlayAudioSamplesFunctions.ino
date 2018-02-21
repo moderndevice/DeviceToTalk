@@ -1,16 +1,37 @@
 
-void doLights(int value){
-	
-	if (value == 0){
-	 playSD.play("ltTrnOff.wav");
-	}
-	else	if (value == 2){
-	 playSD.play("light2.wav");
-	}
-		if (value == 20){
-	 playSD.play("light20.wav");
-	}
-	delay(SD_WAV_DELAY);
+void doLights(int value) {
+
+  if (noMotionTime_Secs > WalkAwayTimeout_Secs) {
+    playSD.play("ltTrnOff.wav");
+    gLightLvl = 0;
+  }
+  else if (value == 0) {
+    playSD.play("ltTrnOff.wav");
+    gLightLvl = 0;
+  }
+  else	if (value == 1) {
+    playSD.play("light2.wav");
+    gLightLvl = 1;
+  }
+  if (value == 2) {
+    playSD.play("light20.wav");
+    gLightLvl = 2;
+  }
+  myDelay(6000); 
+}
+
+void toggleLights() {
+
+  if (gLightLvl == 1) {
+    playSD.play("light20.wav");
+    gLightLvl = 2;
+  }
+  else if (gLightLvl == 2) {
+    playSD.play("light2.wav");
+    gLightLvl = 1;
+  }
+  delay(SD_WAV_DELAY);
+    myDelay(6000); 
 }
 
 void alexaCancel() {
@@ -39,11 +60,11 @@ void anarchy() {
       state = 1;
     }
     else if (timer > 32.0 && state == 1) {
-      setVol(2);
+      setVol(4);
       state = 2;
     }
     else if (timer > 44.0 && state == 2) {
-      setVol(3);
+      setVol(5);
       state = 3;
     }
     if (timer > 56.0) {
@@ -70,13 +91,15 @@ void clorox() {
   playSD.play("start.wav");
   delay(SD_WAV_DELAY);
   myDelay(2000);
+  readSensors();
   startTime = millis();
-  while (peak > LOW_THRESHOLD && (millis() - startTime) < 20000 ) {
+  while (peak > LOW_THRESHOLD && (millis() - startTime) < 40000 ) {
     readSensors();
   }
   playSD.play("continue.wav");
   delay(SD_WAV_DELAY);
   myDelay(2000);
+  readSensors();
   startTime = millis();
   while (peak > LOW_THRESHOLD && (millis() - startTime) < 40000 ) {
     readSensors();
@@ -108,7 +131,7 @@ void norbertWiener() {
     readSensors();
   }
   playSD.play("nWiener.wav");
- delay(SD_WAV_DELAY);
+  delay(SD_WAV_DELAY);
   myDelay(100);
   startTime = millis();
   while (peak > LOW_THRESHOLD && (millis() - startTime) < 20000 ) {
@@ -118,7 +141,7 @@ void norbertWiener() {
 
 void claudeShannon() {
   unsigned int startTime;
- // if (silenceTime_Secs < 1) alexaCancel();
+  // if (silenceTime_Secs < 1) alexaCancel();
   if (playSD.isPlaying()) playSD.stop();
   delay(10);
   playSD.play("aShan.wav");
@@ -143,7 +166,7 @@ void playMusic() {
   fileRepeat = random(4) + 1;
   Serial.print("  fileRepeat ");
   Serial.println(fileRepeat );
-  delay(10000);
+  delay(2000);
   if (silenceTime_Secs < 1) {
     alexaCancel();
     myDelay(3000);
@@ -193,19 +216,37 @@ void harryNyquist() {
   }
 }
 
+void minsky() {
+  unsigned int startTime;
+  if (playSD.isPlaying()) playSD.stop();
+  playSD.play("minsky.wav");
+  delay(SD_WAV_DELAY);
+  readSensors();
+  myDelay(2000);
+  startTime = millis();
+  while (peak > LOW_THRESHOLD && (millis() - startTime) < 20000 ) {
+    readSensors();
+  }
+  //  playSD.play("nyqLimit.wav");
+  //  delay(SD_WAV_DELAY);
+  //  myDelay(3000);
+  //  startTime = millis();
+  //  while (peak > LOW_THRESHOLD && (millis() - startTime) < 14000 ) {
+  //    readSensors();
+  //  }
+}
+
 void goatFacts() {
   unsigned int startTime;
   int randomPlay;
-  randomPlay = random(3) + 1;
-  Serial.print("  randomPlay ");
-  Serial.println(randomPlay );
+  randomPlay = random(2) + 1;
   delay(4000);
   if (silenceTime_Secs < 1) {
     myDelay(2000);
   }
   if (playSD.isPlaying()) playSD.stop();
   startTime = millis();
-  for (int i = 0; i < randomPlay; i++) {
+  for (int i = 0; i < 1; i++) {
     playSD.play("goatFact.wav");
     Serial.println("goatFact.wav");
     delay(SD_WAV_DELAY);

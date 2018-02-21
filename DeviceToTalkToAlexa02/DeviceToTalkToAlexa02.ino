@@ -15,7 +15,7 @@ void setup() {
 
   Serial.begin(9600);
   while (!Serial && (millis() <= 3000));
-  delay(4000);
+  delay(1000);
 
   // Maximum memory usage was reported as 4
   // Proc = 9 (9),  Mem = 4 (4)
@@ -64,15 +64,23 @@ unsigned long last_time = millis();
 void loop()
 {
   readSensors();
-
-  //if (noMotionTime_Secs < 30) {
-  if (!playSD.isPlaying()) {
-  	deals();
- //	playSD.play("hello.wav");
-   // (*functionArray[2])();
-   
+  if (noMotionTime_Secs > WalkAwayTimeout_Secs) {
+    if (gEnabled == 1) {
+      alexaCancel();
+      doLights(0);
+    }
+    gEnabled = 0;
   }
-  Serial.println("repeat");
-  delay(2000);
-  //  goatFacts();
+  else if (noMotionTime_Secs < WalkAwayTimeout_Secs) {
+    if (gEnabled == 0) {
+      setVol(2);
+      doLights(1);    
+    }
+    gEnabled = 1;
+    masterPlayer();
+  }
+
+Serial.println("repeat");
+delay(1000);
+
 }

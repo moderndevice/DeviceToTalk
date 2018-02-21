@@ -3,7 +3,7 @@
 #define SDCARD_MOSI_PIN  7
 #define SDCARD_SCK_PIN   14
 
-#define PIR1 2  
+#define PIR1 2
 #define PIR2 1
 #define WalkAwayTimeout_Secs 15
 #define DEFAUT_VOLUME 3
@@ -42,7 +42,8 @@ AudioConnection          patchCord5(mixer2, 0, i2s1, 1);
 AudioControlSGTL5000     audioShield;     //xy=623.1666870117188,261
 // GUItool: end automatically generated code
 
-
+int gLightLvl = 0;  // 0, 1, 2
+int gEnabled = 0, glastEnabled = 0;
 int pir1, pir2; // pir variables for motion sensors
 float  temp,  peak = 0; // audio volume
 unsigned int lastMotionTime, noMotionTime_Secs, lastSoundTime,  lastRead;
@@ -53,10 +54,10 @@ char* musicArr[] = {"tempttns.wav", "supremes.wav", "johnCage.wav", "raviShkr.wa
                     "PubEnemy.wav", "artEnsCh.wav", "zappa.wav", "samCook.wav", "vogues.wav"
                    };
 
-char* loveYouArr[] = {"iLoveYou.wav","yourGrt.wav","thebest.wav"};
-char* hateYouArr[] = {"onlyThng.wav","iHateYou.wav","dissapnt.wav"};
-char* hiArr[] = {"hi.wav","hi2.wav","goodDay.wav","hello.wav"};
-char* liarArr[] = {"liar.wav","liar2.wav","liar3.wav"};
+char* loveYouArr[] = {"iLoveYou.wav", "yourGrt.wav", "thebest.wav"};
+char* hateYouArr[] = {"onlyThng.wav", "iHateYou.wav", "dissapnt.wav"};
+char* hiArr[] = {"hi.wav", "hi2.wav", "goodDay.wav", "hello.wav", "wazUp.wav"};
+char* liarArr[] = {"liar.wav", "liar2.wav", "liar3.wav"};
 
 
 int maxMusicArrIndex = sizeof(musicArr) / sizeof(musicArr[0]);
@@ -66,9 +67,20 @@ void myDelay(unsigned int intervalMS);
 int randomHatMusic(int numberInHat);
 void setVol(int vol);
 int randomHatMusic(int numberInHat);
-void readSensors(); void clorox(); void claudeShannon();
-void norbertWiener();
+void readSensors(); void clorox(); void claudeShannon(); void anarchy();
+void norbertWiener(); void minsky(); void harryNyquist(); void loveYou();
+void hateYou(); void happy(); void hi(); void liar(); void playMusic();
+void goatFacts(); void deals(); void toggleLights(); void stopMusic();
+ void alexaCancel(); void doLights(int value); void masterPlayer();
+
 
 // array of functions
-void (*functionArray[3])() {norbertWiener, clorox, claudeShannon};
-//(*p[4]) (int, int) {sum,substract,mul,div}
+void (*functionArray[22])() {
+  clorox, norbertWiener, goatFacts, claudeShannon, minsky, toggleLights, harryNyquist
+  , anarchy, deals, loveYou, stopMusic, playMusic, hateYou, happy, hi
+  , liar, goatFacts, deals, toggleLights, goatFacts, playMusic, stopMusic
+};
+
+
+
+
