@@ -53,7 +53,7 @@ char* musicArr[] = {"tempttns.wav", "supremes.wav", "johnCage.wav", "raviShkr.wa
                     "PubEnemy.wav", "artEnsCh.wav", "zappa.wav", "samCook.wav", "vogues.wav"
                    };
 
-char* loveYouArr[] = {"iLoveYou.wav","yourGreat.wav","thebest.wav"};
+char* loveYouArr[] = {"iLoveYou.wav","yourGrt.wav","thebest.wav"};
 char* hateYouArr[] = {"onlyThng.wav","iHateYou.wav","dissapnt.wav"};
 char* hiArr[] = {"hi.wav","hi2.wav","goodDay.wav","hello.wav"};
 char* liarArr[] = {"liar.wav","liar2.wav","liar3.wav"};

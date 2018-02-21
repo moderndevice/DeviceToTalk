@@ -67,9 +67,12 @@ void loop()
 
   //if (noMotionTime_Secs < 30) {
   if (!playSD.isPlaying()) {
-  	claudeShannon();
+  	deals();
+ //	playSD.play("hello.wav");
    // (*functionArray[2])();
    
   }
+  Serial.println("repeat");
+  delay(2000);
   //  goatFacts();
 }
